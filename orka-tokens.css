@@ -1,0 +1,306 @@
+/* ═══════════════════════════════════════════════════════════════
+   ORKA Design System — Tokens
+   Source: Orka 01 Pro A / index.html
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── @property: enables animated transitions on custom properties ── */
+@property --bg-base-top    { syntax: '<color>';      inherits: false; initial-value: #DDE2EB; }
+@property --bg-base-mid    { syntax: '<color>';      inherits: false; initial-value: #F4F1EC; }
+@property --bg-base-bottom { syntax: '<color>';      inherits: false; initial-value: #F9F6F0; }
+@property --bg-orb-a       { syntax: '<color>';      inherits: false; initial-value: rgba(194,209,235,0.36); }
+@property --bg-orb-b       { syntax: '<color>';      inherits: false; initial-value: rgba(244,226,198,0.28); }
+@property --bg-orb-a-x     { syntax: '<percentage>'; inherits: false; initial-value: 24%; }
+@property --bg-orb-a-y     { syntax: '<percentage>'; inherits: false; initial-value: 7%;  }
+@property --bg-orb-b-x     { syntax: '<percentage>'; inherits: false; initial-value: 48%; }
+@property --bg-orb-b-y     { syntax: '<percentage>'; inherits: false; initial-value: 66%; }
+@property --ring-angle     { syntax: '<angle>';      inherits: false; initial-value: 0deg; }
+
+:root {
+
+  /* ────────────────────────────────────────────
+     BRAND
+  ──────────────────────────────────────────── */
+  --blue-main:   #234d77;   /* Primary brand blue */
+  --blue-deep:   #102b46;   /* Deep accent / dark headings */
+  --warm-main:   #c89e72;   /* Warm gold accent */
+  --warm-soft:   #e6d3bf;   /* Warm tint / subtle highlight */
+  --hero-accent: #7d94ab;   /* Hero decorative accent */
+
+  /* ────────────────────────────────────────────
+     TEXT
+  ──────────────────────────────────────────── */
+  --txt-dark: #18212d;   /* Primary text */
+  --txt-soft: #6d7682;   /* Secondary / muted text */
+
+  /* ────────────────────────────────────────────
+     SEMANTIC / FUNCTIONAL
+  ──────────────────────────────────────────── */
+  --color-error:           #FF4B3A;              /* Disconnected / error — red LED */
+  --color-warning:         #c4a56e;              /* Reconnecting / in-progress — gold */
+  --color-success:         #5a9e78;              /* Connected / success — green */
+  --color-btn-primary:     #1d1d1f;              /* Primary button background */
+  --color-cta-navy:        #1B2E4A;              /* Connect CTA */
+  --color-overlay-dark:    rgba(20,24,33,0.92);  /* Toast / tip overlay */
+  --color-overlay-frosted: rgba(245,242,238,0.88); /* Disconnect overlay */
+
+  /* ── Chip disconnected tint ── */
+  --color-chip-error-bg:     rgba(255,75,58,0.08);
+  --color-chip-error-border: rgba(255,75,58,0.28);
+
+  /* ────────────────────────────────────────────
+     SURFACE / NEUTRAL
+  ──────────────────────────────────────────── */
+  --card-bg:   rgba(247,248,249,0.78); /* Frosted card surface */
+  --card-line: rgba(255,255,255,0.58); /* Card border highlight */
+  --track-bg:  #cfd5dc;                /* Slider track background */
+  --dot-bg:    #8b9cac;                /* Inactive dots / indicators */
+
+  /* ────────────────────────────────────────────
+     BACKGROUND — outer body gradient
+  ──────────────────────────────────────────── */
+  --bg-body-top:    #d9e0e6;
+  --bg-body-mid1:   #edf0f2;
+  --bg-body-mid2:   #f1eee8;
+  --bg-body-bottom: #ebe7e0;
+
+  /* ────────────────────────────────────────────
+     BACKGROUND — phone canvas (animatable)
+     Transition these together for smooth mode shifts (900ms ease).
+  ──────────────────────────────────────────── */
+  --bg-base-top:    #DDE2EB;
+  --bg-base-mid:    #F4F1EC;
+  --bg-base-bottom: #F9F6F0;
+  --bg-orb-a:   rgba(194,209,235,0.36);
+  --bg-orb-b:   rgba(244,226,198,0.28);
+  --bg-orb-a-x: 24%;
+  --bg-orb-a-y: 7%;
+  --bg-orb-b-x: 48%;
+  --bg-orb-b-y: 66%;
+
+  /* ────────────────────────────────────────────
+     BORDER RADIUS
+  ──────────────────────────────────────────── */
+  --radius-circle:  9999px; /* LEDs, avatars, round icons */
+  --radius-pill:    20px;   /* Chips, buttons, CTAs */
+  --radius-chip:    18px;   /* Device indicator chips */
+  --radius-card:    16px;   /* Cards, panels */
+  --radius-card-lg: 20px;   /* Large cards, listening plans */
+  --radius-button:  25px;   /* Primary buttons */
+  --radius-toast:   12px;   /* Toasts, tips */
+  --radius-small:   4px;    /* Battery, minor elements */
+
+  /* ────────────────────────────────────────────
+     SHADOWS
+  ──────────────────────────────────────────── */
+  --shadow-soft:        0 10px 28px rgba(17,31,47,0.10);  /* Card elevation */
+  --shadow-thumb:       0 8px  20px rgba(16,34,55,0.18);  /* Slider thumbs */
+  --shadow-phone-frame: 0 24px 72px rgba(12,24,39,0.26);  /* Outer device frame */
+  --shadow-toast:       0 10px 26px rgba(0,0,0,0.28);     /* Toast / tip */
+
+  /* Inset card highlights */
+  --shadow-card-inset-top:    inset 0 1px 0 rgba(255,255,255,0.64);
+  --shadow-card-inset-bottom: inset 0 -1px 0 rgba(36,47,60,0.04);
+
+  /* ────────────────────────────────────────────
+     SPACING
+  ──────────────────────────────────────────── */
+  --space-xs:  6px;  /* Icon gaps, LED spacing */
+  --space-sm:  8px;  /* Chip inner gap */
+  --space-md:  12px; /* Card gaps, section padding */
+  --space-lg:  16px; /* Section gaps, content spacing */
+  --space-xl:  24px; /* Page padding horizontal */
+  --space-2xl: 32px; /* Large vertical margins */
+  --space-3xl: 40px; /* Overlay padding */
+
+  /* ────────────────────────────────────────────
+     TYPOGRAPHY
+  ──────────────────────────────────────────── */
+  --font-system:  -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                  "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC",
+                  "Microsoft YaHei", sans-serif;
+  --font-display:        "Noto Serif SC", "Songti SC", "STSong", serif; /* CJK display serif */
+  --font-display-latin:  "Playfair Display", "Times New Roman", serif;  /* Latin display italic */
+
+  /* Sizes */
+  --text-caption:    13px; /* Tips, metadata */
+  --text-body-sm:    14px; /* Buttons, chips, secondary labels */
+  --text-body:       15px; /* Status bar text */
+  --text-body-lg:    16px; /* Primary buttons */
+  --text-heading-sm: 17px; /* Card headings */
+  --text-heading:    20px; /* Section titles, overlay titles */
+  --text-heading-lg: 22px; /* Page / hero titles */
+
+  /* Weights */
+  --weight-regular:   500; /* Body text, captions */
+  --weight-medium:    520; /* Chip labels */
+  --weight-semibold:  600; /* Buttons, status bar */
+  --weight-bold-soft: 650; /* Card headings */
+  --weight-bold:      680; /* Section titles */
+  --weight-black:     700; /* Page titles, hero headings */
+
+  /* Letter spacing */
+  --tracking-tight:          -0.02em; /* Headings */
+  --tracking-slightly-tight: -0.01em; /* Buttons, CTAs */
+  --tracking-normal:          0;      /* Default body */
+
+  /* ────────────────────────────────────────────
+     SIZING (components)
+  ──────────────────────────────────────────── */
+  --size-led:             6px;  /* Status LED dot */
+  --size-icon-badge:      42px; /* Listening plan icon badge */
+  --size-toggle-w:        51px; /* Toggle switch width */
+  --size-toggle-h:        31px; /* Toggle switch height */
+  --size-slider-thumb:    22px; /* Gauge knob diameter */
+  --size-slider-track:    6px;  /* Slider track height */
+  --size-button-h:        50px; /* Primary button height */
+  --size-cta-h:           40px; /* Connect CTA height */
+  --size-disconnect-icon: 64px; /* Disconnect overlay icon container */
+
+  /* ────────────────────────────────────────────
+     OPACITY
+  ──────────────────────────────────────────── */
+  --opacity-disabled: 0.30; /* Disconnect-mode disabled cards */
+  --opacity-pressed:  0.82; /* Active press state */
+
+  /* ────────────────────────────────────────────
+     MOTION
+  ──────────────────────────────────────────── */
+  --duration-default: 280ms;
+  --duration-bg:      900ms;  /* Background theme transition */
+  --duration-thumb:   160ms;  /* Thumb active scale */
+  --duration-spring:  380ms;  /* Accordion / split view */
+
+  --easing-default: ease;
+  --easing-spring:  cubic-bezier(0.22, 1, 0.36, 1);
+  --easing-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --easing-smooth:  cubic-bezier(0.2,  1,    0.3,  1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLASSMORPHISM HELPER
+   Apply to any frosted surface card.
+   ═══════════════════════════════════════════════════════════════ */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 0.5px solid var(--card-line);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Ambient orb drift (phone background) */
+@keyframes bgFloatA {
+  0%   { transform: translate3d(0,    0,    0) scale(1);    }
+  50%  { transform: translate3d(1.2%, 1.4%, 0) scale(1.03); }
+  100% { transform: translate3d(-1.4%,2%,   0) scale(1.05); }
+}
+@keyframes bgFloatB {
+  0%   { transform: translate3d(0,    0,    0) scale(1);    }
+  50%  { transform: translate3d(-1.1%,1.3%, 0) scale(1.03); }
+  100% { transform: translate3d(1.4%, 2.1%, 0) scale(1.05); }
+}
+
+/* Disconnect overlay spinner */
+@keyframes dcSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Chip LED states */
+@keyframes ledBlink {
+  0%, 100% { opacity: 1;    } /* Disconnected */
+  50%       { opacity: 0.28; }
+}
+@keyframes ledSpin {
+  to { transform: rotate(360deg); } /* Connecting */
+}
+
+/* Connect CTA spinning border gradient */
+@keyframes ringFlow {
+  to { --ring-angle: 360deg; }
+}
+
+/* Friend-flow connecting pulse rings */
+@keyframes fpPulse {
+  0%   { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* Tone accordion collapse shake (error) */
+@keyframes fpShake {
+  0%, 100% { transform: translateX(0);  }
+  20%, 60%  { transform: translateX(-4px); }
+  40%, 80%  { transform: translateX(4px);  }
+}
+
+/* Voice-focus orb animations */
+@keyframes omniEnter {
+  0%   { transform: scale(0.4);  opacity: 0; }
+  55%  { transform: scale(1.06); opacity: 0.9; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+@keyframes omniDrift {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  50%  { transform: rotate(180deg) scale(1.03); }
+  100% { transform: rotate(360deg) scale(1);    }
+}
+@keyframes adaptiveEnter {
+  0%   { transform: scale(1); opacity: 0;   }
+  100% { transform: scale(1); opacity: 0.4; }
+}
+@keyframes adaptivePulse {
+  0%   { transform: scale(1);    opacity: 0.4; }
+  50%  { transform: scale(1.15); opacity: 1;   }
+  100% { transform: scale(1);    opacity: 0.4; }
+}
+@keyframes focusCenterEnter {
+  0%   { transform: scale(0.4);  opacity: 0; }
+  55%  { transform: scale(1.06); opacity: 0.9; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+@keyframes focusCenterBreath {
+  0%   { transform: scale(1);    }
+  100% { transform: scale(1.06); }
+}
+@keyframes focusFrontEnter {
+  0%   { transform: translateY(30%) scale(0.3); opacity: 0; }
+  100% { transform: translateY(0)   scale(1);   opacity: 1; }
+}
+@keyframes focusFrontFloat {
+  0%   { transform: translateY(0)  scale(1);    }
+  50%  { transform: translateY(-4%) scale(1.05); }
+  100% { transform: translateY(1%)  scale(0.97); }
+}
+@keyframes fwdFrontEnter {
+  0%   { transform: translateY(20%) scale(0.4); opacity: 0; }
+  55%  { transform: translateY(-3%) scale(1.05); opacity: 0.9; }
+  100% { transform: translateY(0)   scale(1);   opacity: 1; }
+}
+@keyframes fwdFrontFloat {
+  0%   { transform: translateY(0)   scale(1);    }
+  50%  { transform: translateY(-4%) scale(1.04); }
+  100% { transform: translateY(1%)  scale(0.98); }
+}
+@keyframes fwdSideEnter {
+  0%   { transform: scaleX(0.5); opacity: 0; }
+  55%  { transform: scaleX(1.03); opacity: 0.9; }
+  100% { transform: scaleX(1);   opacity: 1; }
+}
+@keyframes fwdSideBreath {
+  0%   { transform: scale(1);    }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(0.97); }
+}
+
+/* ── Reduced-motion override ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

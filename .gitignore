@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────
+# Files NOT to track in git (kept local-only).
+# Note: this is different from .assetsignore (which controls what
+# gets uploaded to Cloudflare on `wrangler deploy`). Most project
+# files SHOULD be tracked even if they're not deployed.
+# ─────────────────────────────────────────────────────────────
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies (if added later)
+node_modules/
+
+# Cloudflare build / cache
+.wrangler/
+
+# Local AI / Claude Code session config (per-machine, may contain local paths/perms)
+.claude/
+
+# Local env / secrets (if added later)
+.env
+.env.local
+.env.*.local

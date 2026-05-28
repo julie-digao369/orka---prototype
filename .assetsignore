@@ -1,0 +1,56 @@
+# ─────────────────────────────────────────────────────────────
+# Files in this list are NOT uploaded to Cloudflare on `wrangler deploy`.
+# Syntax follows .gitignore.  Only the deployed Chinese index.html
+# (and the assets it references) should ship to the edge.
+# ─────────────────────────────────────────────────────────────
+
+# --- Alternate language / backup builds (dev only) ---
+index-en.html
+index-zh.html
+
+# --- Internal design system & docs ---
+orka-components.html
+orka-tokens.css
+design-system.md
+tokens.json
+CLAUDE.md
+README.md
+*.md
+
+# --- Redundant PNG sources (WebP equivalents already referenced) ---
+bg-listen.png
+bg-remote.png
+img-mode-icon-source.png
+启动页背景图.png
+产品图.png
+# NOTE: `orka hearing aids.png` (314 KB) IS referenced by index.html at the
+# Bluetooth pairing screen. It is NOT excluded here. Converting it to .webp
+# would cut ~300 KB off page weight — recommended follow-up.
+
+# --- English-only image aliases (only used by index-en.html) ---
+product.png
+product.webp
+splash-bg.png
+splash-bg.webp
+
+# --- Unused SVG sources (icons are inlined into index.html) ---
+嘈杂.svg
+对话.svg
+通用.svg
+亲友代调icon.svg
+
+# --- Deploy-time config (not served as static asset) ---
+wrangler.toml
+wrangler.jsonc
+wrangler.json
+.assetsignore
+
+# --- System / tooling / build cache ---
+.DS_Store
+.wrangler/
+.git/
+node_modules/
+.vscode/
+.idea/
+.claude/
+*.log

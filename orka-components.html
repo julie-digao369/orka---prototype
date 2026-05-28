@@ -1,0 +1,1091 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orka Components</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="orka-tokens.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-system);
+      background: linear-gradient(180deg,
+        var(--bg-body-top) 0%, var(--bg-body-mid1) 38%,
+        var(--bg-body-mid2) 72%, var(--bg-body-bottom) 100%);
+      color: var(--txt-dark);
+      min-height: 100vh;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Catalogue layout ── */
+    .catalogue { max-width: 420px; margin: 0 auto; display: grid; gap: 40px; }
+
+    .section-title {
+      font-size: var(--text-caption);
+      font-weight: var(--weight-semibold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--txt-soft);
+      margin-bottom: 14px;
+    }
+
+    .component-group { display: grid; gap: 16px; }
+    .component-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+    /* ── Shared card surface ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--card-line);
+      box-shadow:
+        var(--shadow-card-inset-top),
+        var(--shadow-card-inset-bottom),
+        var(--shadow-soft);
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
+    }
+    .card-white {
+      background: #ffffff;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(232,234,238,0.7);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+<div class="catalogue">
+
+  <!-- ═══════════════════════════════════════════════
+       1. STATUS BAR
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Status Bar</p>
+    <div class="component-group">
+      <div style="
+        background: rgba(247,248,249,0.5);
+        border-radius: var(--radius-toast);
+        padding: 10px 20px;
+        display: flex; justify-content: space-between; align-items: center;
+        font-size: var(--text-body);
+        font-weight: var(--weight-semibold);
+        color: var(--txt-dark);
+      ">
+        <span>9:41</span>
+        <div style="display:flex;align-items:center;gap:var(--space-xs);">
+          <!-- Signal bars (pure CSS) -->
+          <span style="display:flex;align-items:flex-end;gap:2px;height:11px;">
+            <i style="display:block;width:3px;border-radius:1px;background:#2e2a2e;height:4px;opacity:0.55;"></i>
+            <i style="display:block;width:3px;border-radius:1px;background:#2e2a2e;height:6px;opacity:0.72;"></i>
+            <i style="display:block;width:3px;border-radius:1px;background:#2e2a2e;height:8px;opacity:0.86;"></i>
+            <i style="display:block;width:3px;border-radius:1px;background:#2e2a2e;height:10px;"></i>
+          </span>
+          <!-- WiFi arc -->
+          <span style="
+            width:14px;height:10px;border-radius:50%;
+            border:2px solid #2e2a2e;
+            border-right-color:transparent;border-bottom-color:transparent;border-left-color:transparent;
+            transform:rotate(45deg);margin-top:-1px;
+          "></span>
+          <!-- Battery -->
+          <span style="
+            width:28px;height:13px;border-radius:4px;
+            border:1.2px solid rgba(255,255,255,0.55);
+            background:linear-gradient(180deg,rgba(255,255,255,0.38) 0%,rgba(255,255,255,0.13) 100%);
+            box-shadow:0 1px 2px rgba(0,0,0,0.07),inset 0 1px 2px rgba(255,255,255,0.22);
+            backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+            padding:1.5px;position:relative;display:flex;align-items:center;
+          ">
+            <i style="display:block;width:86%;height:100%;border-radius:2px;background:linear-gradient(90deg,#aeea8b 0%,#e6e6e6 100%);"></i>
+            <span style="
+              content:'';width:2px;height:5px;border-radius:1px;
+              background:rgba(255,255,255,0.7);position:absolute;right:-3px;top:3px;
+            "></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       2. CHIPS (Device Indicators)
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Chip — Device Indicator</p>
+    <div class="component-row">
+
+      <!-- Connected -->
+      <div style="
+        height:32px; min-width:100px; border-radius:var(--radius-chip);
+        border:1px solid rgba(255,255,255,0.58);
+        background:linear-gradient(180deg,rgba(255,255,255,0.48) 0%,rgba(244,247,250,0.18) 100%);
+        backdrop-filter:blur(22px) saturate(150%); -webkit-backdrop-filter:blur(22px) saturate(150%);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,0.7),inset 0 -1px 0 rgba(255,255,255,0.16),0 8px 20px rgba(160,171,187,0.14);
+        display:inline-flex;align-items:center;justify-content:center;gap:var(--space-sm);
+        font-size:var(--text-body-sm);color:rgba(33,47,65,0.92);padding:0 16px;font-weight:var(--weight-medium);
+      ">
+        <span style="width:10px;height:10px;border-radius:50%;background:#20bd98;box-shadow:0 0 0 5px rgba(32,189,152,0.12);flex-shrink:0;"></span>
+        <span>左</span><span>75%</span>
+      </div>
+
+      <!-- Disconnected -->
+      <div class="chip-disconnected" style="
+        height:32px; min-width:100px; border-radius:var(--radius-chip);
+        background:var(--color-chip-error-bg);
+        border:1px solid var(--color-chip-error-border);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 2px 10px rgba(255,75,58,0.10);
+        backdrop-filter:blur(12px) saturate(110%); -webkit-backdrop-filter:blur(12px) saturate(110%);
+        display:inline-flex;align-items:center;justify-content:center;gap:var(--space-sm);
+        font-size:var(--text-body-sm);color:rgba(180,80,70,0.92);padding:0 16px;font-weight:var(--weight-semibold);
+      ">
+        <span style="
+          width:10px;height:10px;border-radius:50%;background:var(--color-error);
+          box-shadow:0 0 0 4px rgba(255,75,58,0.18);
+          animation:ledBlink 1.4s ease-in-out infinite;flex-shrink:0;
+        "></span>
+        <span>右</span><span>—</span>
+      </div>
+
+      <!-- Connecting -->
+      <div style="
+        height:32px; min-width:100px; border-radius:var(--radius-chip);
+        background:rgba(255,255,255,0.82); border:none;
+        box-shadow:0 0 0 0.5px rgba(0,0,0,0.04);
+        display:inline-flex;align-items:center;justify-content:center;gap:var(--space-sm);
+        font-size:var(--text-body-sm);color:rgba(27,46,74,0.72);padding:0 16px;font-weight:var(--weight-semibold);
+      ">
+        <span style="
+          width:12px;height:12px;border-radius:50%;
+          border:2px solid rgba(201,169,110,0.18);border-top-color:#3A6EA5;
+          animation:ledSpin 0.8s linear infinite;flex-shrink:0;
+        "></span>
+        <span>左</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       3. GAUGE (Volume Arc)
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Gauge — Volume Arc</p>
+    <div class="card" style="padding:16px 16px 14px;background:#ffffff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0;">
+        <h2 style="font-size:18px;font-weight:700;color:var(--blue-deep);">音量</h2>
+        <!-- Split icon button -->
+        <button style="
+          width:32px;height:32px;border-radius:10px;border:0;
+          background:#eff0f3;display:grid;place-items:center;cursor:pointer;
+        ">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 9.5C13.38 9.5 14.5 10.62 14.5 12C14.5 13.38 13.38 14.5 12 14.5C10.62 14.5 9.5 13.38 9.5 12C9.5 10.62 10.62 9.5 12 9.5ZM8.84 10.5C8.62 10.95 8.5 11.46 8.5 12C8.5 12.54 8.62 13.05 8.84 13.5H3.5C2.67 13.5 2 12.83 2 12C2 11.17 2.67 10.5 3.5 10.5H8.84ZM20.5 10.5C21.33 10.5 22 11.17 22 12C22 12.83 21.33 13.5 20.5 13.5H15.16C15.38 13.05 15.5 12.54 15.5 12C15.5 11.46 15.38 10.95 15.16 10.5H20.5Z" fill="#506A8A"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Gauge SVG arc -->
+      <div style="display:grid;justify-items:center;margin-top:0;">
+        <div style="width:280px;height:148px;position:relative;overflow:visible;">
+          <svg viewBox="0 0 280 148" style="width:100%;height:100%;overflow:visible;">
+            <defs>
+              <linearGradient id="arcGradient" x1="15" y1="140" x2="265" y2="140" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#213756"/>
+                <stop offset="1" stop-color="#80654c"/>
+              </linearGradient>
+            </defs>
+            <!-- Base track -->
+            <path fill="none" stroke="#dce2e8" stroke-width="10" stroke-linecap="round" opacity="0.45"
+              d="M 15 140 A 125 125 0 0 1 265 140"/>
+            <!-- Filled arc (~65% = volume 10) -->
+            <path fill="none" stroke="url(#arcGradient)" stroke-width="10" stroke-linecap="round"
+              stroke-dasharray="393" stroke-dashoffset="137"
+              d="M 15 140 A 125 125 0 0 1 265 140"/>
+          </svg>
+          <!-- Knob positioned at ~65% of arc -->
+          <div style="
+            width:22px;height:22px;border-radius:50%;background:#fff;
+            position:absolute;
+            left:calc(50% + 94px); top:calc(50% - 88px);
+            transform:translate(-50%,-50%);
+            box-shadow:0 1px 4px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.04);
+            cursor:grab;z-index:2;
+          ">
+            <span style="
+              position:absolute;inset:4px;border-radius:50%;
+              background:var(--warm-main);
+            "></span>
+          </div>
+        </div>
+
+        <!-- Volume number -->
+        <div style="
+          margin-top:-76px;
+          font-family:var(--font-display);font-size:56px;font-weight:700;
+          color:var(--blue-deep);line-height:1;min-width:1.6em;text-align:center;
+          font-variant-numeric:tabular-nums;
+        ">10</div>
+        <div style="margin-top:-4px;font-size:13px;color:#8e9199;font-weight:500;">音量等级</div>
+        <div style="margin-top:14px;font-size:16px;color:#4f6787;font-weight:600;text-align:center;">
+          音量充足，适合安静环境
+        </div>
+
+        <!-- Mute pill -->
+        <button style="
+          display:inline-flex;align-items:center;gap:4px;
+          margin-top:10px;padding:5px 14px 5px 10px;
+          border:none;border-radius:14px;
+          background:rgba(0,0,0,0.04);color:#8e9199;
+          font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;
+        ">
+          <svg viewBox="0 0 20 20" fill="none" width="14" height="14">
+            <path d="M9 4L5 7H2v6h3l4 3V4z" fill="currentColor"/>
+            <path d="M12.5 7.5a3.5 3.5 0 0 1 0 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          静音
+        </button>
+      </div>
+
+      <!-- +/- buttons -->
+      <div style="margin-top:10px;display:flex;justify-content:center;gap:56px;">
+        <!-- Minus -->
+        <button style="
+          width:76px;border:0;background:transparent;
+          display:grid;justify-items:center;gap:0;
+          color:#7a787d;font-size:14px;font-weight:500;cursor:pointer;padding:0;
+        ">
+          <span style="
+            width:76px;height:76px;border-radius:50%;
+            background:rgba(239,240,243,0.92);
+            border:1px solid rgba(225,228,234,0.6);
+            box-shadow:0 2px 8px rgba(17,31,47,0.06);
+            position:relative;display:block;
+          ">
+            <!-- horizontal bar only -->
+            <span style="
+              position:absolute;left:50%;top:50%;
+              transform:translate(-50%,-50%);
+              width:28px;height:3px;border-radius:999px;
+              background:#3a3f4a;display:block;
+            "></span>
+          </span>
+        </button>
+        <!-- Plus -->
+        <button style="
+          width:76px;border:0;background:transparent;
+          display:grid;justify-items:center;gap:0;
+          color:#7a787d;font-size:14px;font-weight:500;cursor:pointer;padding:0;
+        ">
+          <span style="
+            width:76px;height:76px;border-radius:50%;
+            background:rgba(239,240,243,0.92);
+            border:1px solid rgba(225,228,234,0.6);
+            box-shadow:0 2px 8px rgba(17,31,47,0.06);
+            position:relative;display:block;
+          ">
+            <span style="
+              position:absolute;left:50%;top:50%;
+              transform:translate(-50%,-50%);
+              width:28px;height:3px;border-radius:999px;
+              background:#3a3f4a;display:block;
+            "></span>
+            <span style="
+              position:absolute;left:50%;top:50%;
+              transform:translate(-50%,-50%) rotate(90deg);
+              width:28px;height:3px;border-radius:999px;
+              background:#3a3f4a;display:block;
+            "></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       4. SPLIT SLIDER (L/R Volume)
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Split Slider — L/R Volume</p>
+    <div class="card" style="padding:16px;background:#ffffff;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- Left ear -->
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--txt-soft);">
+            <span style="width:8px;height:8px;border-radius:50%;background:#5B8FC9;flex-shrink:0;"></span>
+            左
+          </div>
+          <div style="display:flex;align-items:center;gap:2px;">
+            <!-- Mute icon -->
+            <button style="
+              width:24px;height:24px;border-radius:50%;border:none;background:transparent;
+              display:flex;align-items:center;justify-content:center;
+              cursor:pointer;color:#8e9199;padding:0;flex-shrink:0;
+            ">
+              <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+                <path d="M9 4L5 7H2v6h3l4 3V4z" fill="currentColor"/>
+                <path d="M12.5 7.5a3.5 3.5 0 0 1 0 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <!-- Track -->
+            <div style="flex:1;height:44px;border-radius:22px;position:relative;overflow:visible;cursor:pointer;">
+              <div style="position:absolute;inset:0;border-radius:22px;background:#e8eaee;overflow:hidden;">
+                <!-- Fill at 75% -->
+                <div style="
+                  position:absolute;left:0;top:0;bottom:0;width:75%;border-radius:22px;
+                  background:linear-gradient(90deg,rgba(33,55,86,0.9) 0%,rgba(33,55,86,0.5) 100%);
+                "></div>
+                <!-- Dot guides -->
+                <div style="
+                  position:absolute;left:22px;right:22px;top:50%;transform:translateY(-50%);
+                  display:flex;justify-content:space-between;pointer-events:none;
+                ">
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                </div>
+              </div>
+              <!-- Knob at 75% -->
+              <div style="
+                position:absolute;top:50%;left:calc(75% - 18px);
+                width:36px;height:36px;border-radius:50%;background:#fff;
+                transform:translateY(-50%);
+                box-shadow:0 2px 6px rgba(0,0,0,0.15),0 0 0 0.5px rgba(0,0,0,0.04);
+                display:grid;place-items:center;z-index:3;cursor:grab;
+                font-size:15px;font-weight:700;color:var(--blue-deep);
+              ">9</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right ear -->
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--txt-soft);">
+            <span style="width:8px;height:8px;border-radius:50%;background:#D4926A;flex-shrink:0;"></span>
+            右
+          </div>
+          <div style="display:flex;align-items:center;gap:2px;">
+            <button style="
+              width:24px;height:24px;border-radius:50%;border:none;background:transparent;
+              display:flex;align-items:center;justify-content:center;
+              cursor:pointer;color:#8e9199;padding:0;flex-shrink:0;
+            ">
+              <svg viewBox="0 0 20 20" fill="none" width="20" height="20">
+                <path d="M9 4L5 7H2v6h3l4 3V4z" fill="currentColor"/>
+                <path d="M12.5 7.5a3.5 3.5 0 0 1 0 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <div style="flex:1;height:44px;border-radius:22px;position:relative;overflow:visible;cursor:pointer;">
+              <div style="position:absolute;inset:0;border-radius:22px;background:#e8eaee;overflow:hidden;">
+                <div style="
+                  position:absolute;left:0;top:0;bottom:0;width:90%;border-radius:22px;
+                  background:linear-gradient(90deg,rgba(128,101,76,0.9) 0%,rgba(128,101,76,0.5) 100%);
+                "></div>
+                <div style="
+                  position:absolute;left:22px;right:22px;top:50%;transform:translateY(-50%);
+                  display:flex;justify-content:space-between;pointer-events:none;
+                ">
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.10);flex-shrink:0;"></span>
+                </div>
+              </div>
+              <div style="
+                position:absolute;top:50%;left:calc(90% - 18px);
+                width:36px;height:36px;border-radius:50%;background:#fff;
+                transform:translateY(-50%);
+                box-shadow:0 2px 6px rgba(0,0,0,0.15),0 0 0 0.5px rgba(0,0,0,0.04);
+                display:grid;place-items:center;z-index:3;cursor:grab;
+                font-size:15px;font-weight:700;color:var(--blue-deep);
+              ">11</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       5. EQ CURVE (Tone Card)
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">EQ — Tone Card</p>
+    <div class="card-white" style="padding:0;">
+      <!-- Header -->
+      <div style="
+        padding:20px 18px 12px;display:flex;
+        justify-content:space-between;align-items:flex-start;gap:12px;cursor:pointer;
+      ">
+        <h2 style="font-size:18px;font-weight:700;color:#1f1f23;letter-spacing:-0.2px;">音调</h2>
+        <button style="
+          width:34px;height:34px;border:none;border-radius:10px;
+          background:#eff0f3;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+        ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6d7382" stroke-width="2.2"
+               stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <polyline points="18 9 12 15 6 9"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- L/R ear tabs (split mode) -->
+      <div style="
+        display:grid;grid-template-columns:1fr 1fr;gap:3px;
+        margin:0 18px 8px;background:#f2f4f8;border-radius:12px;
+        padding:3px;border:1px solid #e6eaf1;
+      ">
+        <button style="
+          height:34px;border:0;border-radius:10px;
+          background:#ffffff;color:var(--txt-dark);
+          font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
+          box-shadow:0 1px 4px rgba(36,47,60,0.12);
+        ">左耳</button>
+        <button style="
+          height:34px;border:0;border-radius:10px;
+          background:transparent;color:#6d7382;
+          font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
+        ">右耳</button>
+      </div>
+
+      <!-- EQ SVG -->
+      <div style="padding:8px 14px 12px;">
+        <svg id="eqCurveSvg" viewBox="-8 0 336 320" preserveAspectRatio="xMidYMid meet"
+             style="display:block;width:100%;height:240px;overflow:visible;">
+          <defs>
+            <linearGradient id="eqFillGradient" x1="0" y1="44" x2="0" y2="290" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#8EA4C9" stop-opacity="0.31"/>
+              <stop offset="45%"  stop-color="#7F97BF" stop-opacity="0.20"/>
+              <stop offset="100%" stop-color="#6C86B3" stop-opacity="0.11"/>
+            </linearGradient>
+          </defs>
+          <!-- Guide lines -->
+          <line x1="16"  y1="40" x2="16"  y2="290" stroke="#ccd5e2" stroke-width="1.5"/>
+          <line x1="160" y1="40" x2="160" y2="290" stroke="#ccd5e2" stroke-width="1.5"/>
+          <line x1="304" y1="40" x2="304" y2="290" stroke="#ccd5e2" stroke-width="1.5"/>
+          <!-- Level labels -->
+          <text x="16"  y="15" text-anchor="middle" font-size="20" font-weight="800"
+                fill="#2f4a6b" opacity="0.6" font-family="-apple-system,sans-serif">+0</text>
+          <text x="160" y="15" text-anchor="middle" font-size="20" font-weight="800"
+                fill="#2f4a6b" opacity="0.6" font-family="-apple-system,sans-serif">+2</text>
+          <text x="304" y="15" text-anchor="middle" font-size="20" font-weight="800"
+                fill="#2f4a6b" opacity="0.6" font-family="-apple-system,sans-serif">+1</text>
+          <!-- Fill path -->
+          <path fill="url(#eqFillGradient)"
+            d="M16,130 C60,130 120,150 160,170 C200,190 260,185 304,175 L304,290 L16,290 Z"/>
+          <!-- Curve line -->
+          <path fill="none" stroke="#6d84ae" stroke-width="4"
+                stroke-linecap="round" stroke-linejoin="round"
+            d="M16,130 C60,130 120,150 160,170 C200,190 260,185 304,175"/>
+          <!-- Halos -->
+          <circle cx="16"  cy="130" r="18" fill="none" stroke="rgba(121,150,193,0.46)" stroke-width="2.4"/>
+          <circle cx="160" cy="170" r="18" fill="none" stroke="rgba(121,150,193,0.46)" stroke-width="2.4"/>
+          <circle cx="304" cy="175" r="18" fill="none" stroke="rgba(121,150,193,0.46)" stroke-width="2.4"/>
+          <!-- Drag points -->
+          <circle cx="16"  cy="130" r="16" fill="#2f4a6b" stroke="#f4f7fb" stroke-width="3" style="cursor:grab;"/>
+          <circle cx="160" cy="170" r="16" fill="#2f4a6b" stroke="#f4f7fb" stroke-width="3" style="cursor:grab;"/>
+          <circle cx="304" cy="175" r="16" fill="#2f4a6b" stroke="#f4f7fb" stroke-width="3" style="cursor:grab;"/>
+        </svg>
+
+        <!-- Freq labels -->
+        <div style="position:relative;height:40px;margin-top:-8px;padding:0;">
+          <span style="position:absolute;top:0;left:5%;font-size:14px;font-weight:600;color:#6a7a9b;transform:translateX(-50%);">低频</span>
+          <span style="position:absolute;top:0;left:50%;font-size:14px;font-weight:600;color:#6a7a9b;transform:translateX(-50%);">中频</span>
+          <span style="position:absolute;top:0;left:95%;font-size:14px;font-weight:600;color:#6a7a9b;transform:translateX(-50%);">高频</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display:flex;gap:10px;padding:12px 18px 14px;">
+        <button style="
+          flex:1;height:44px;border-radius:10px;border:none;
+          font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;
+          background:#f2f2f7;color:#3d5a82;
+          box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(36,47,60,0.02);
+        ">重置</button>
+        <button style="
+          flex:1;height:44px;border-radius:10px;border:none;
+          font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;
+          background:#2f4a6b;color:#fff;
+          box-shadow:0 2px 8px rgba(47,74,107,0.15);
+        ">收藏</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       6. MODE SWITCH (Noise Cancel)
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Mode Switch — Segmented</p>
+    <div class="card-white" style="padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h2 style="font-size:18px;font-weight:700;color:var(--blue-deep);">噪音消除</h2>
+        <button style="
+          width:24px;height:24px;border-radius:50%;border:1px solid rgba(16,43,70,0.14);
+          background:rgba(232,236,240,0.96);color:#5f7184;font-size:13px;font-weight:700;
+          display:grid;place-items:center;cursor:pointer;
+          box-shadow:inset 0 1px 0 rgba(255,255,255,0.72),0 3px 8px rgba(16,34,55,0.06);
+        ">?</button>
+      </div>
+
+      <!-- 3-col mode buttons -->
+      <div style="
+        display:grid;grid-template-columns:repeat(3,1fr);gap:4px;
+        background:#eeeeee;border-radius:14px;padding:4px;
+      ">
+        <button style="
+          padding:14px 12px;border:0;border-radius:11px;
+          background:#ffffff;color:#1d1d1f;font-size:14px;font-weight:600;
+          cursor:pointer;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;gap:0;
+          box-shadow:0 1px 3px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.04);
+          font-family:inherit;
+        ">
+          <span style="font-size:14px;line-height:1.1;font-weight:600;">关闭</span>
+        </button>
+        <button style="
+          padding:14px 12px;border:0;border-radius:11px;
+          background:transparent;color:#86868b;font-size:14px;font-weight:600;
+          cursor:pointer;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;gap:0;
+          font-family:inherit;
+        ">
+          <span style="font-size:14px;line-height:1.1;font-weight:600;">低</span>
+          <span style="font-size:10.5px;font-weight:500;opacity:0.7;margin-top:3px;">舒适降噪</span>
+        </button>
+        <button style="
+          padding:14px 12px;border:0;border-radius:11px;
+          background:transparent;color:#86868b;font-size:14px;font-weight:600;
+          cursor:pointer;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;gap:0;
+          font-family:inherit;
+        ">
+          <span style="font-size:14px;line-height:1.1;font-weight:600;">高</span>
+          <span style="font-size:10.5px;font-weight:500;opacity:0.7;margin-top:3px;">深度降噪</span>
+        </button>
+      </div>
+
+      <!-- 2-col variant -->
+      <div style="
+        display:grid;grid-template-columns:1fr 1fr;gap:4px;
+        background:#eeeeee;border-radius:14px;padding:4px;margin-top:10px;
+      ">
+        <button style="
+          padding:14px 0;border:0;border-radius:11px;
+          background:#ffffff;color:#1d1d1f;font-size:15px;font-weight:600;
+          cursor:pointer;text-align:center;font-family:inherit;
+          box-shadow:0 1px 3px rgba(0,0,0,0.1),0 4px 10px rgba(0,0,0,0.04);
+        ">通用</button>
+        <button style="
+          padding:14px 0;border:0;border-radius:11px;
+          background:transparent;color:#86868b;font-size:15px;font-weight:600;
+          cursor:pointer;text-align:center;font-family:inherit;
+        ">自适应</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       7. TOGGLE SWITCH
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Toggle Switch</p>
+    <div class="card-white" style="padding:16px;">
+      <div style="display:grid;gap:4px;">
+
+        <!-- Row: on -->
+        <div style="
+          display:flex;justify-content:space-between;align-items:center;
+          padding:14px 4px;border-bottom:1px solid rgba(16,34,55,0.06);
+        ">
+          <span style="color:var(--blue-deep);font-weight:600;font-size:15px;">瞬噪</span>
+          <label style="position:relative;display:inline-block;width:60px;height:30px;flex-shrink:0;">
+            <input type="checkbox" checked style="opacity:0;width:0;height:0;">
+            <span style="
+              position:absolute;cursor:pointer;inset:0;
+              background:#183b5f;transition:background 250ms ease;border-radius:999px;
+            ">
+              <span style="
+                position:absolute;height:22px;width:34px;left:4px;top:4px;
+                background:white;border-radius:999px;
+                transform:translateX(18px);transition:transform 250ms;
+              "></span>
+            </span>
+          </label>
+        </div>
+
+        <!-- Row: off -->
+        <div style="
+          display:flex;justify-content:space-between;align-items:center;
+          padding:14px 4px;border-bottom:1px solid rgba(16,34,55,0.06);
+        ">
+          <span style="color:var(--blue-deep);font-weight:600;font-size:15px;">风噪</span>
+          <label style="position:relative;display:inline-block;width:60px;height:30px;flex-shrink:0;">
+            <input type="checkbox" style="opacity:0;width:0;height:0;">
+            <span style="
+              position:absolute;cursor:pointer;inset:0;
+              background:#c9c7c7;transition:background 250ms ease;border-radius:999px;
+            ">
+              <span style="
+                position:absolute;height:22px;width:34px;left:4px;top:4px;
+                background:white;border-radius:999px;
+                transform:translateX(0);transition:transform 250ms;
+              "></span>
+            </span>
+          </label>
+        </div>
+
+        <!-- Row: on -->
+        <div style="
+          display:flex;justify-content:space-between;align-items:center;
+          padding:14px 4px;
+        ">
+          <span style="color:var(--blue-deep);font-weight:600;font-size:15px;">啸叫</span>
+          <label style="position:relative;display:inline-block;width:60px;height:30px;flex-shrink:0;">
+            <input type="checkbox" checked style="opacity:0;width:0;height:0;">
+            <span style="
+              position:absolute;cursor:pointer;inset:0;
+              background:#183b5f;transition:background 250ms ease;border-radius:999px;
+            ">
+              <span style="
+                position:absolute;height:22px;width:34px;left:4px;top:4px;
+                background:white;border-radius:999px;
+                transform:translateX(18px);transition:transform 250ms;
+              "></span>
+            </span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       8. TAB BAR
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Tab Bar</p>
+    <nav style="
+      background:rgba(255,255,255,0.92);
+      backdrop-filter:blur(24px) saturate(140%);
+      -webkit-backdrop-filter:blur(24px) saturate(140%);
+      padding:6px 6px 10px;
+      display:grid;grid-template-columns:repeat(4,1fr);
+      align-items:center;gap:4px;
+      border-radius:var(--radius-card);
+    ">
+      <!-- Active tab -->
+      <button style="
+        border:0;background:rgba(35,77,119,0.08);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:3px;color:var(--blue-main);cursor:pointer;
+        font-size:10px;line-height:1;font-weight:600;letter-spacing:0.02em;
+        padding:6px 0 4px;border-radius:14px;
+        font-family:var(--font-system);
+      ">
+        <span style="transform:scale(1.08);display:grid;place-items:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 8H20"/><path d="M4 16H20"/>
+            <path d="M9 5V11"/><path d="M15 13V19"/>
+            <circle cx="9" cy="8" r="1.8" fill="currentColor" stroke="none"/>
+            <circle cx="15" cy="16" r="1.8" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>
+        <span>音量</span>
+      </button>
+
+      <!-- Inactive tabs -->
+      <button style="
+        border:0;background:transparent;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:3px;color:rgba(100,108,120,0.7);cursor:pointer;
+        font-size:10px;line-height:1;font-weight:600;letter-spacing:0.02em;
+        padding:6px 0 4px;border-radius:14px;
+        font-family:var(--font-system);
+      ">
+        <span style="display:grid;place-items:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.65">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+            <circle cx="9.5" cy="9.5" r="0.8" fill="currentColor" stroke="none"/>
+            <circle cx="14.5" cy="9.5" r="0.8" fill="currentColor" stroke="none"/>
+            <circle cx="9.5" cy="14.5" r="0.8" fill="currentColor" stroke="none"/>
+            <circle cx="14.5" cy="14.5" r="0.8" fill="currentColor" stroke="none"/>
+            <circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none"/>
+            <path d="M6 10H4"/><path d="M6 14H4"/><path d="M20 10H18"/><path d="M20 14H18"/>
+            <path d="M10 6V4"/><path d="M14 6V4"/><path d="M10 20V18"/><path d="M14 20V18"/>
+          </svg>
+        </span>
+        <span>降噪</span>
+      </button>
+
+      <button style="
+        border:0;background:transparent;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:3px;color:rgba(100,108,120,0.7);cursor:pointer;
+        font-size:10px;line-height:1;font-weight:600;letter-spacing:0.02em;
+        padding:6px 0 4px;border-radius:14px;
+        font-family:var(--font-system);
+      ">
+        <span style="display:grid;place-items:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.65">
+            <circle cx="9.3" cy="17.6" r="1.7"/>
+            <circle cx="17" cy="15.5" r="1.7"/>
+            <path d="M11 17.6V14.2"/><path d="M18.7 15.5V8.8"/>
+            <path d="M18.7 10.8L12.5 12.5"/>
+            <path d="M9.4 6.97C9.95 6.28 10.26 4.88 10.26 4.88C10.26 4.88 10.58 6.28 11.09 6.97C11.6 7.66 13.23 8.27 13.23 8.27C13.23 8.27 11.6 8.87 11.09 9.57C10.58 10.25 10.26 11.66 10.26 11.66C10.26 11.66 9.95 10.25 9.44 9.57C8.93 8.87 7.3 8.27 7.3 8.27C7.3 8.27 8.93 7.66 9.44 6.97Z"/>
+          </svg>
+        </span>
+        <span>媒体</span>
+      </button>
+
+      <button style="
+        border:0;background:transparent;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:3px;color:rgba(100,108,120,0.7);cursor:pointer;
+        font-size:10px;line-height:1;font-weight:600;letter-spacing:0.02em;
+        padding:6px 0 4px;border-radius:14px;
+        font-family:var(--font-system);
+      ">
+        <span style="display:grid;place-items:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.65">
+            <rect x="6" y="3.5" width="12" height="17" rx="2.2"/>
+            <path d="M9 8H15"/><path d="M9 12H15"/><path d="M9 16H13"/>
+          </svg>
+        </span>
+        <span>聆听方案</span>
+      </button>
+    </nav>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       9. BUTTONS
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Buttons</p>
+    <div class="component-group">
+
+      <!-- Primary button -->
+      <button style="
+        width:100%;height:var(--size-button-h);border:0;
+        border-radius:var(--radius-button);
+        font-size:var(--text-body-lg);font-weight:var(--weight-semibold);
+        letter-spacing:var(--tracking-slightly-tight);cursor:pointer;
+        background:var(--color-btn-primary);color:#fff;
+        font-family:var(--font-system);
+        transition:transform var(--duration-thumb) var(--easing-default);
+      ">连接助听器</button>
+
+      <!-- CTA navy + spinning border -->
+      <div style="display:flex;justify-content:center;">
+        <button style="
+          display:inline-flex;align-items:center;justify-content:center;gap:6px;
+          padding:0 32px;height:var(--size-cta-h);border:0;
+          border-radius:20px;background:var(--color-cta-navy);
+          color:#fff;font-size:var(--text-body-sm);font-weight:var(--weight-semibold);
+          cursor:pointer;font-family:var(--font-system);
+          position:relative;overflow:visible;
+        ">
+          <!-- spinning gradient border (static preview) -->
+          <span style="
+            position:absolute;inset:-3px;border-radius:23px;
+            background:conic-gradient(from 45deg,#3A6EA5,#C9A96E,#E8D5A3,#C9A96E,#3A6EA5,#1B2E4A,#3A6EA5);
+            -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            pointer-events:none;
+          "></span>
+          连接
+        </button>
+      </div>
+
+      <!-- Reconnect: warning state -->
+      <button style="
+        width:100%;height:var(--size-button-h);border:0;
+        border-radius:var(--radius-button);
+        font-size:var(--text-body-lg);font-weight:var(--weight-semibold);
+        cursor:default;background:var(--color-warning);color:#fff;
+        font-family:var(--font-system);
+      ">重新连接中…</button>
+
+      <!-- Connected: success state -->
+      <button style="
+        width:100%;height:var(--size-button-h);border:0;
+        border-radius:var(--radius-button);
+        font-size:var(--text-body-lg);font-weight:var(--weight-semibold);
+        cursor:pointer;background:var(--color-success);color:#fff;
+        font-family:var(--font-system);
+      ">已连接</button>
+
+      <!-- Plan apply: soft blue -->
+      <button style="
+        width:100%;height:48px;border-radius:12px;
+        border:1px solid rgba(44,62,80,0.08);
+        background:rgba(230,238,250,0.56);
+        color:var(--blue-deep);font-size:var(--text-body-lg);font-weight:620;
+        cursor:pointer;font-family:var(--font-system);
+      ">应用到助听器</button>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       10. PLAN CARDS (Listening Plans)
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Plan Cards</p>
+    <div class="component-group">
+
+      <!-- Listening tile: image bg -->
+      <article style="
+        position:relative;height:134px;border-radius:var(--radius-card-lg);overflow:hidden;
+        background:linear-gradient(135deg,#234d77 0%,#102b46 100%);
+        box-shadow:0 6px 20px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.28);
+        cursor:pointer;
+      ">
+        <h2 style="
+          position:absolute;left:24px;bottom:24px;margin:0;
+          color:#fff;font-size:22px;font-weight:680;letter-spacing:0.3px;
+        ">聆听方案</h2>
+        <button style="
+          position:absolute;right:16px;bottom:16px;
+          width:36px;height:36px;border-radius:50%;border:0;
+          background:rgba(255,255,255,0.22);color:rgba(255,255,255,0.92);
+          display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+        ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+               stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <polyline points="9 6 15 12 9 18"/>
+          </svg>
+        </button>
+      </article>
+
+      <!-- Plan detail card: active -->
+      <div style="
+        background:rgba(255,255,255,0.92);border-radius:var(--radius-card);
+        border:1px solid rgba(255,255,255,0.7);
+        box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:20px 22px;
+      ">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <h3 style="font-size:20px;font-weight:680;color:var(--blue-deep);margin:0;">定制聆听方案</h3>
+          <span style="
+            display:inline-flex;align-items:center;height:30px;padding:0 16px;
+            border-radius:16px;background:#1ba768;color:#fff;
+            font-size:14px;font-weight:600;flex-shrink:0;
+          ">使用中</span>
+        </div>
+        <p style="margin:6px 0 0;font-size:14px;color:#8e8e93;line-height:1.4;">
+          备注说明（可选）
+        </p>
+        <div style="height:1px;background:rgba(0,0,0,0.06);margin:16px 0;"></div>
+        <div style="display:flex;gap:24px;align-items:center;">
+          <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:#8e9aab;font-weight:500;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8e9aab" stroke-width="1.8" width="18" height="18">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
+            </svg>
+            2025年5月1日
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:#8e9aab;font-weight:500;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8e9aab" stroke-width="1.8" width="18" height="18">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            上午 11:53
+          </span>
+        </div>
+        <button style="
+          margin-top:16px;width:100%;height:48px;border-radius:12px;
+          border:1px solid rgba(44,62,80,0.08);
+          background:rgba(230,238,250,0.56);color:var(--blue-deep);
+          font-size:16px;font-weight:620;cursor:pointer;font-family:var(--font-system);
+        ">应用到助听器</button>
+      </div>
+
+      <!-- Plan detail card: default -->
+      <div style="
+        background:rgba(255,255,255,0.92);border-radius:var(--radius-card);
+        border:1px solid rgba(255,255,255,0.7);
+        box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:20px 22px;
+      ">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <h3 style="font-size:20px;font-weight:680;color:var(--blue-deep);margin:0;">定制聆听方案</h3>
+        </div>
+        <p style="margin:6px 0 0;font-size:14px;color:#8e8e93;line-height:1.4;">
+          备注说明（可选）
+        </p>
+        <div style="height:1px;background:rgba(0,0,0,0.06);margin:16px 0;"></div>
+        <div style="display:flex;gap:24px;align-items:center;">
+          <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:#8e9aab;font-weight:500;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8e9aab" stroke-width="1.8" width="18" height="18">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
+            </svg>
+            2025年5月1日
+          </span>
+        </div>
+        <button style="
+          margin-top:16px;width:100%;height:48px;border-radius:12px;
+          border:1px solid rgba(44,62,80,0.08);
+          background:rgba(230,238,250,0.56);color:var(--blue-deep);
+          font-size:16px;font-weight:620;cursor:pointer;font-family:var(--font-system);
+        ">应用到助听器</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       11. DISCONNECT OVERLAY
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Disconnect Overlay</p>
+    <div style="
+      border-radius:var(--radius-card-lg);overflow:hidden;
+      background:var(--color-overlay-frosted);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      display:flex;flex-direction:column;align-items:center;
+      justify-content:center;padding:40px 40px 32px;
+    ">
+      <!-- Icon + spinner -->
+      <div style="
+        width:var(--size-disconnect-icon);height:var(--size-disconnect-icon);
+        margin-bottom:28px;display:grid;place-items:center;position:relative;
+      ">
+        <!-- Spinner ring (static preview) -->
+        <span style="
+          position:absolute;inset:-6px;border-radius:50%;
+          border:2.5px solid transparent;border-top-color:var(--color-warning);
+          animation:dcSpin 1s linear infinite;
+        "></span>
+        <svg width="54" height="54" viewBox="0 0 24 24" fill="none"
+             stroke="var(--color-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 7l5 5 5-5-5-5v20l5-5-5-5-5 5"/>
+        </svg>
+      </div>
+
+      <h2 style="
+        font-size:20px;font-weight:700;color:#1d1d1f;
+        margin:0 0 10px;letter-spacing:-0.02em;text-align:center;
+      ">重新连接中…</h2>
+      <p style="font-size:14px;color:#8a8a8e;margin:0 0 36px;text-align:center;line-height:1.55;">
+        请确认助听器已开机并靠近手机
+      </p>
+
+      <button style="
+        width:100%;height:var(--size-button-h);border:0;
+        border-radius:var(--radius-button);font-size:var(--text-body-lg);
+        font-weight:var(--weight-semibold);cursor:default;
+        background:var(--color-warning);color:#fff;
+        font-family:var(--font-system);
+      ">重新连接中…</button>
+
+      <button style="
+        margin-top:16px;background:none;border:0;
+        font-size:14px;color:#8a8a8e;cursor:pointer;
+        padding:8px 12px;letter-spacing:-0.01em;
+        font-family:var(--font-system);
+      ">稍后再说</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       12. VOICE FOCUS GRID
+  ═══════════════════════════════════════════════ -->
+  <section>
+    <p class="section-title">Voice Focus — 2×2 Grid</p>
+    <div class="card-white" style="padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h2 style="font-size:18px;font-weight:700;color:var(--blue-deep);">语音聚焦</h2>
+        <button style="
+          width:24px;height:24px;border-radius:50%;border:1px solid rgba(16,43,70,0.14);
+          background:rgba(232,236,240,0.96);color:#5f7184;font-size:13px;font-weight:700;
+          display:grid;place-items:center;cursor:pointer;
+          box-shadow:inset 0 1px 0 rgba(255,255,255,0.72),0 3px 8px rgba(16,34,55,0.06);
+        ">?</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+
+        <!-- Active: omni -->
+        <button style="
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          gap:8px;min-height:116px;padding:18px 12px;border:0;border-radius:20px;
+          background:linear-gradient(140deg,#667d9e 0%,#7f95b4 52%,#9baece 100%);
+          color:rgba(255,255,255,0.98);font-size:14px;font-weight:600;cursor:pointer;
+          font-family:var(--font-system);
+          box-shadow:0 10px 20px rgba(136,145,157,0.16);
+        ">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" opacity="1">
+            <circle cx="12" cy="12" r="3"/>
+            <circle cx="12" cy="5" r="1.5"/>
+            <circle cx="12" cy="19" r="1.5"/>
+            <circle cx="5" cy="12" r="1.5"/>
+            <circle cx="19" cy="12" r="1.5"/>
+          </svg>
+          全向
+        </button>
+
+        <!-- Inactive: adaptive -->
+        <button style="
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          gap:8px;min-height:116px;padding:18px 12px;border:0;border-radius:20px;
+          background:#f0f0ef;color:#5c6670;font-size:14px;font-weight:600;cursor:pointer;
+          font-family:var(--font-system);
+        ">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.85">
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+            <path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+          </svg>
+          自适应
+        </button>
+
+        <!-- Inactive: focus -->
+        <button style="
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          gap:8px;min-height:116px;padding:18px 12px;border:0;border-radius:20px;
+          background:#f0f0ef;color:#5c6670;font-size:14px;font-weight:600;cursor:pointer;
+          font-family:var(--font-system);
+        ">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.85">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+          </svg>
+          聚声
+        </button>
+
+        <!-- Inactive: forward -->
+        <button style="
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          gap:8px;min-height:116px;padding:18px 12px;border:0;border-radius:20px;
+          background:#f0f0ef;color:#5c6670;font-size:14px;font-weight:600;cursor:pointer;
+          font-family:var(--font-system);
+        ">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.85">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+          前向
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+</div><!-- /catalogue -->
+</body>
+</html>
