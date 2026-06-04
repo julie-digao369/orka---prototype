@@ -170,6 +170,12 @@
     @property --bg-orb-b-x { syntax: '<percentage>'; inherits: false; initial-value: 48%; }
     @property --bg-orb-b-y { syntax: '<percentage>'; inherits: false; initial-value: 66%; }
     @property --ring-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+    @property --page-base-gray { syntax: '<color>'; inherits: true; initial-value: #eceff3; }
+    @property --page-tint-color { syntax: '<color>'; inherits: true; initial-value: rgba(219, 228, 238, 0.78); }
+    @property --ai-c1 { syntax: '<color>'; inherits: false; initial-value: #4c7add; }
+    @property --ai-c2 { syntax: '<color>'; inherits: false; initial-value: #8cb0e4; }
+    @property --ai-c3 { syntax: '<color>'; inherits: false; initial-value: #cce6eb; }
+    @property --breath-color { syntax: '<color>'; inherits: false; initial-value: #d8eaf0; }
 
     @keyframes bgFloatA {
       0% { transform: translate3d(0, 0, 0) scale(1); }
@@ -678,11 +684,12 @@
       align-content: start;
       gap: 12px;
       --page-base-gray: #eceff3;
-      --page-top-tint: linear-gradient(180deg, rgba(219, 228, 238, 0.78) 0%, rgba(219, 228, 238, 0.52) 100%);
+      --page-tint-color: rgba(219, 228, 238, 0.78);
       --hero-tint-height: 362px;
       --page-gradient-len: 240px;
       background: linear-gradient(180deg, transparent 0px, var(--page-base-gray) var(--page-gradient-len));
       position: relative;
+      transition: --page-base-gray 0.9s ease;
     }
 
     .scroll::before {
@@ -690,9 +697,9 @@
       display: block;
       height: var(--hero-tint-height);
       margin: 0 -16px calc(var(--hero-tint-height) * -1);
-      background: var(--page-top-tint);
+      background: linear-gradient(180deg, var(--page-tint-color) 0%, color-mix(in srgb, var(--page-tint-color), transparent 68%) 70%, transparent 100%);
       pointer-events: none;
-      transition: background 360ms ease;
+      transition: --page-tint-color 0.9s ease;
     }
 
     .scroll > * {
@@ -1234,8 +1241,7 @@
       border: 1px solid var(--card-line);
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.64),
-        inset 0 -1px 0 rgba(36, 47, 60, 0.04),
-        var(--shadow-soft);
+        inset 0 -1px 0 rgba(36, 47, 60, 0.04);
       backdrop-filter: blur(14px) saturate(130%);
       -webkit-backdrop-filter: blur(14px) saturate(130%);
     }
@@ -2347,6 +2353,7 @@
     /* Program card */
     .program-card {
       padding: 14px 16px;
+      background: #ffffff;
     }
 
     .program-row {
@@ -2376,19 +2383,19 @@
     }
 
     .program-mode-svg.mode-1 {
-      background: radial-gradient(circle at 50% 50%, #9fbde1 0%, #c9d4ea 100%);
+      background: radial-gradient(circle at 50% 50%, #a79a8d 0%, #c3c7d2 100%);
     }
 
     .program-mode-svg.mode-2 {
-      background: radial-gradient(circle at 50% 50%, #4fc6ba 0%, #9cddd5 44%, #d9f4ef 100%);
+      background: radial-gradient(circle at 50% 50%, #3bb3b3 0%, #88d2d3 50%, #d6f1f2 100%);
     }
 
     .program-mode-svg.mode-3 {
-      background: radial-gradient(circle at 50% 50%, #5f83f1 0%, #93acef 45%, #dae4ff 100%);
+      background: radial-gradient(circle at 50% 50%, #5281ff 0%, #92affa 40%, #d1ddf6 80%);
     }
 
     .program-mode-svg.mode-4 {
-      background: radial-gradient(circle at 50% 50%, #f5aa2f 0%, #f7c66f 44%, #fde9ca 100%);
+      background: radial-gradient(circle at 50% 50%, #fca93f 0%, #f8c57e 50%, #f3e2bc 100%);
     }
 
     .program-icon .program-mode-svg {
@@ -2415,12 +2422,22 @@
     }
 
     .program-dropdown {
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       max-height: 0;
       opacity: 0;
       transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease, margin-top 200ms ease;
       margin-top: 0;
     }
+
+    /* 下拉视觉顺序（Figma）：智能 → 日常通用 → 对话聚焦 → 城市降噪 → 户外出行 */
+    .program-dropdown-item--auto { order: 0; }
+    .program-group-label { order: 1; }
+    .program-dropdown-item--sub[data-program="1"] { order: 2; }
+    .program-dropdown-item--sub[data-program="4"] { order: 3; }
+    .program-dropdown-item--sub[data-program="3"] { order: 4; }
+    .program-dropdown-item--sub[data-program="2"] { order: 5; }
 
     .program-card.dropdown-open .program-dropdown {
       max-height: 400px;
@@ -2477,6 +2494,116 @@
 
     .program-dropdown-item.active .program-check {
       opacity: 1;
+    }
+
+    /* ── 智能程序（自动程序） ── */
+    .program-mode-svg.mode-auto {
+      --ai-c1: #4c7add;
+      --ai-c2: #8cb0e4;
+      --ai-c3: #cce6eb;
+      --breath-color: #d8eaf0;
+      background: radial-gradient(circle at 50% 50%, var(--ai-c1) 0%, var(--ai-c2) 50%, var(--ai-c3) 100%);
+      transition: --ai-c1 0.9s ease, --ai-c2 0.9s ease, --ai-c3 0.9s ease, --breath-color 0.9s ease;
+    }
+
+    /* 收起态：主标题 + 动态子标签 */
+    .program-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .program-text .program-label {
+      flex: none;
+    }
+
+    .program-sub {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue-main);
+      margin-top: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    .program-sub[hidden] {
+      display: none;
+    }
+
+    .program-sub.sub-pulse {
+      animation: subPulse 500ms ease;
+    }
+
+    @keyframes subPulse {
+      0%   { opacity: 0.45; }
+      100% { opacity: 1; }
+    }
+
+    /* 自动模式：图标背景外圈呼吸光圈 */
+    .program-card.auto-active .program-icon .program-mode-svg {
+      animation: autoBreath 4.2s ease-in-out infinite;
+    }
+
+    @keyframes autoBreath {
+      0%, 100% { box-shadow: 0 0 0 0   transparent; }
+      50%      { box-shadow: 0 0 0 5px color-mix(in srgb, var(--breath-color), transparent 10%); }
+    }
+
+    /* 下拉：智能程序置顶突出大卡（未选中＝中性，仅保留层级感） */
+    .program-dropdown-item--auto {
+      align-items: flex-start;
+      padding: 12px 12px;
+      margin-bottom: 6px;
+      border-radius: 14px;
+      background: rgba(16, 34, 55, 0.03);
+      border: 1px solid rgba(16, 34, 55, 0.10);
+    }
+
+    /* 选中智能程序时才出现蓝色高亮（配合对勾） */
+    .program-dropdown-item--auto.active {
+      background: rgba(201, 228, 255, 0.10);
+      border-color: rgba(35, 77, 119, 0.30);
+    }
+
+    .program-dropdown-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .program-dropdown-item--auto .program-dropdown-label {
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .program-dropdown-desc {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--txt-soft);
+      margin-top: 2px;
+    }
+
+    .program-dropdown-item--auto .program-check {
+      align-self: center;
+    }
+
+    /* 分组标题 */
+    .program-group-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--txt-soft);
+      letter-spacing: 0.04em;
+      padding: 4px 4px 2px;
+    }
+
+    .program-group-label + .program-dropdown-item {
+      border-top: 0;
+    }
+
+    /* 自动模式下：当前子场景高亮 */
+    .program-dropdown-item--sub.is-current {
+      background: rgba(35, 77, 119, 0.08);
     }
 
     /* NR card common */
@@ -4503,23 +4630,56 @@
         <section class="card program-card" id="programCardVolume" data-program-selector="true">
           <div class="program-row">
             <div class="program-icon">
-              <svg class="program-mode-svg mode-1" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                <defs><clipPath id="modeClip"><rect width="36" height="36" rx="11"/></clipPath></defs><image href="img-mode-icon.png" width="36" height="36" clip-path="url(#modeClip)" preserveAspectRatio="xMidYMid slice"/>
-                <g transform="translate(6 6)">
-                  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M10.9898 3.41842C11.5477 2.86053 12.4523 2.86053 13.0102 3.41842L21.5816 11.9898C22.1394 12.5477 22.1394 13.4523 21.5816 14.0102C21.0237 14.568 20.1191 14.568 19.5613 14.0102L12 6.44887L4.43873 14.0102C3.88083 14.568 2.97631 14.568 2.41842 14.0102C1.86053 13.4523 1.86053 12.5477 2.41842 11.9898L10.9898 3.41842Z" fill="white"/>
-                  <path d="M19.1416 13.5801V20.5713C19.1416 21.3603 18.5019 22 17.7129 22H13.999V16C13.999 14.8954 13.1036 14 11.999 14C10.8945 14 9.99902 14.8954 9.99902 16V22H6.28418C5.49537 21.9998 4.85645 21.3602 4.85645 20.5713L4.85547 13.5801L11.999 6.44043L19.1416 13.5801Z" fill="white"/>
-                  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M14 22H10V16C10 14.8954 10.8954 14 12 14C13.1046 14 14 14.8954 14 16V22Z" fill="white"/>
-                </g>
+              <svg class="program-mode-svg mode-auto" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <circle cx="14.2" cy="14.2" r="2.4" fill="#ffffff"/>
+                <circle cx="21.8" cy="14.2" r="2.4" fill="#ffffff"/>
+                <circle cx="14.2" cy="21.8" r="2.4" fill="#ffffff"/>
+                <circle cx="21.8" cy="21.8" r="2.4" fill="#ffffff"/>
+                <circle cx="14.2" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="21.8" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="14.2" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="21.8" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="8.2" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="8.2" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="27.8" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="27.8" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
               </svg>
             </div>
-            <span class="program-label">通用</span>
+            <div class="program-text">
+              <span class="program-label">智能程序</span>
+              <span class="program-sub" data-auto-sub hidden>当前 · 日常通用</span>
+            </div>
             <svg class="program-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#b0b3ba" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="7 5 13 10 7 15"/>
             </svg>
           </div>
           <!-- Program selector dropdown -->
           <div class="program-dropdown">
-            <div class="program-dropdown-item active" data-program="1">
+            <div class="program-dropdown-item program-dropdown-item--auto active" data-program="auto">
+              <div class="program-dropdown-icon">
+                <svg class="program-mode-svg mode-auto" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                  <circle cx="14.2" cy="14.2" r="2.4" fill="#ffffff"/>
+                  <circle cx="21.8" cy="14.2" r="2.4" fill="#ffffff"/>
+                  <circle cx="14.2" cy="21.8" r="2.4" fill="#ffffff"/>
+                  <circle cx="21.8" cy="21.8" r="2.4" fill="#ffffff"/>
+                  <circle cx="14.2" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="21.8" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="14.2" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="21.8" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="8.2" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="8.2" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="27.8" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="27.8" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                </svg>
+              </div>
+              <div class="program-dropdown-text">
+                <span class="program-dropdown-label">智能程序</span>
+                <span class="program-dropdown-desc">根据环境自动切换</span>
+              </div>
+              <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="program-group-label">手动选择</div>
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="1">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-1" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <defs><clipPath id="modeClip"><rect width="36" height="36" rx="11"/></clipPath></defs><image href="img-mode-icon.png" width="36" height="36" clip-path="url(#modeClip)" preserveAspectRatio="xMidYMid slice"/>
@@ -4530,10 +4690,10 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">通用</span>
+              <span class="program-dropdown-label">日常通用</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="program-dropdown-item" data-program="2">
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="2">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-2" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect width="36" height="36" rx="11" fill="#56A88F"/>
@@ -4542,10 +4702,10 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">户外</span>
+              <span class="program-dropdown-label">户外出行</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="program-dropdown-item" data-program="3">
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="3">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-3" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect width="36" height="36" rx="11" fill="#8094CF"/>
@@ -4555,10 +4715,10 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">嘈杂</span>
+              <span class="program-dropdown-label">城市降噪</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="program-dropdown-item" data-program="4">
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="4">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-4" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect width="36" height="36" rx="11" fill="#D7AB72"/>
@@ -4568,7 +4728,7 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">对话</span>
+              <span class="program-dropdown-label">对话聚焦</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
@@ -4761,23 +4921,56 @@
         <section class="card program-card" id="programCardNR" data-program-selector="true">
           <div class="program-row">
             <div class="program-icon">
-              <svg class="program-mode-svg mode-1" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                <defs><clipPath id="modeClip"><rect width="36" height="36" rx="11"/></clipPath></defs><image href="img-mode-icon.png" width="36" height="36" clip-path="url(#modeClip)" preserveAspectRatio="xMidYMid slice"/>
-                <g transform="translate(6 6)">
-                  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M10.9898 3.41842C11.5477 2.86053 12.4523 2.86053 13.0102 3.41842L21.5816 11.9898C22.1394 12.5477 22.1394 13.4523 21.5816 14.0102C21.0237 14.568 20.1191 14.568 19.5613 14.0102L12 6.44887L4.43873 14.0102C3.88083 14.568 2.97631 14.568 2.41842 14.0102C1.86053 13.4523 1.86053 12.5477 2.41842 11.9898L10.9898 3.41842Z" fill="white"/>
-                  <path d="M19.1416 13.5801V20.5713C19.1416 21.3603 18.5019 22 17.7129 22H13.999V16C13.999 14.8954 13.1036 14 11.999 14C10.8945 14 9.99902 14.8954 9.99902 16V22H6.28418C5.49537 21.9998 4.85645 21.3602 4.85645 20.5713L4.85547 13.5801L11.999 6.44043L19.1416 13.5801Z" fill="white"/>
-                  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M14 22H10V16C10 14.8954 10.8954 14 12 14C13.1046 14 14 14.8954 14 16V22Z" fill="white"/>
-                </g>
+              <svg class="program-mode-svg mode-auto" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <circle cx="14.2" cy="14.2" r="2.4" fill="#ffffff"/>
+                <circle cx="21.8" cy="14.2" r="2.4" fill="#ffffff"/>
+                <circle cx="14.2" cy="21.8" r="2.4" fill="#ffffff"/>
+                <circle cx="21.8" cy="21.8" r="2.4" fill="#ffffff"/>
+                <circle cx="14.2" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="21.8" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="14.2" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="21.8" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="8.2" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="8.2" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="27.8" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                <circle cx="27.8" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
               </svg>
             </div>
-            <span class="program-label">通用</span>
+            <div class="program-text">
+              <span class="program-label">智能程序</span>
+              <span class="program-sub" data-auto-sub hidden>当前 · 日常通用</span>
+            </div>
             <svg class="program-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#b0b3ba" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="7 5 13 10 7 15"/>
             </svg>
           </div>
           <!-- Program selector dropdown -->
           <div class="program-dropdown">
-            <div class="program-dropdown-item active" data-program="1">
+            <div class="program-dropdown-item program-dropdown-item--auto active" data-program="auto">
+              <div class="program-dropdown-icon">
+                <svg class="program-mode-svg mode-auto" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                  <circle cx="14.2" cy="14.2" r="2.4" fill="#ffffff"/>
+                  <circle cx="21.8" cy="14.2" r="2.4" fill="#ffffff"/>
+                  <circle cx="14.2" cy="21.8" r="2.4" fill="#ffffff"/>
+                  <circle cx="21.8" cy="21.8" r="2.4" fill="#ffffff"/>
+                  <circle cx="14.2" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="21.8" cy="8.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="14.2" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="21.8" cy="27.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="8.2" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="8.2" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="27.8" cy="14.2" r="1.7" fill="#ffffff" opacity="0.6"/>
+                  <circle cx="27.8" cy="21.8" r="1.7" fill="#ffffff" opacity="0.6"/>
+                </svg>
+              </div>
+              <div class="program-dropdown-text">
+                <span class="program-dropdown-label">智能程序</span>
+                <span class="program-dropdown-desc">根据环境自动切换</span>
+              </div>
+              <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="program-group-label">手动选择</div>
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="1">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-1" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <defs><clipPath id="modeClip"><rect width="36" height="36" rx="11"/></clipPath></defs><image href="img-mode-icon.png" width="36" height="36" clip-path="url(#modeClip)" preserveAspectRatio="xMidYMid slice"/>
@@ -4788,10 +4981,10 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">通用</span>
+              <span class="program-dropdown-label">日常通用</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="program-dropdown-item" data-program="2">
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="2">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-2" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect width="36" height="36" rx="11" fill="#56A88F"/>
@@ -4800,10 +4993,10 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">户外</span>
+              <span class="program-dropdown-label">户外出行</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="program-dropdown-item" data-program="3">
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="3">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-3" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect width="36" height="36" rx="11" fill="#8094CF"/>
@@ -4813,10 +5006,10 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">嘈杂</span>
+              <span class="program-dropdown-label">城市降噪</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="program-dropdown-item" data-program="4">
+            <div class="program-dropdown-item program-dropdown-item--sub" data-program="4">
               <div class="program-dropdown-icon">
                 <svg class="program-mode-svg mode-4" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect width="36" height="36" rx="11" fill="#D7AB72"/>
@@ -4826,7 +5019,7 @@
                   </g>
                 </svg>
               </div>
-              <span class="program-dropdown-label">对话</span>
+              <span class="program-dropdown-label">对话聚焦</span>
               <svg class="program-check" width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="4 9 7.5 12.5 14 5.5" stroke="#4f657d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
@@ -5715,6 +5908,14 @@
     let currentAccentEnd   = '#73604a';
     let currentUnifiedBase = '#30445e';
 
+    /* ── 智能程序（自动程序）状态 ── */
+    let autoMode = false;            // 智能程序是否激活
+    let autoTimer = null;            // setInterval 句柄
+    let autoCurrentSub = '1';        // 当前「检测到」的子程序
+    const AUTO_SEQUENCE = ['1', '4', '3', '2'];        // 轮播顺序（按 Figma 展示顺序）
+    const AUTO_INTERVAL = 6000;                         // 6 秒/次
+    const SUB_NAME = { '1': '日常通用', '2': '户外出行', '3': '城市降噪', '4': '对话聚焦' };
+
     function hexToRgb(hex) {
       const clean = hex.replace('#', '');
       return {
@@ -6574,8 +6775,8 @@
     /* ── Program Dropdown ── */
     const programThemes = {
       '1': {
-        pageBase: 'transparent',
-        pageTopTint: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%)',
+        pageBase: 'rgba(249, 246, 240, 0)',
+        pageTintColor: 'rgba(219, 228, 238, 0)',
         volStart: '#5b6a80',
         volEnd: '#9a897b',
         accentStart: '#30445e',
@@ -6588,7 +6789,7 @@
       },
       '2': {
         pageBase: '#F9F6F0',
-        pageTopTint: 'linear-gradient(180deg, rgba(166, 214, 203, 0.56) 0%, rgba(182, 219, 210, 0.18) 70%, rgba(182, 219, 210, 0) 100%)',
+        pageTintColor: 'rgba(166, 214, 203, 0.56)',
         volStart: '#5ab7b8',
         volEnd: '#dfc876',
         accentStart: '#579b9a',
@@ -6601,7 +6802,7 @@
       },
       '3': {
         pageBase: '#F9F6F0',
-        pageTopTint: 'linear-gradient(180deg, rgba(174, 191, 236, 0.58) 0%, rgba(191, 201, 235, 0.18) 70%, rgba(191, 201, 235, 0) 100%)',
+        pageTintColor: 'rgba(174, 191, 236, 0.58)',
         volStart: '#7c94d8',
         volEnd: '#c5b1a3',
         accentStart: '#5c6e9f',
@@ -6614,7 +6815,7 @@
       },
       '4': {
         pageBase: '#F0F1F9',
-        pageTopTint: 'linear-gradient(180deg, rgba(235, 233, 221, 0.62) 0%, rgba(235, 233, 221, 0.18) 70%, rgba(235, 233, 221, 0) 100%)',
+        pageTintColor: 'rgba(235, 233, 221, 0.62)',
         heroTintHeight: '462px',
         pageGradientLen: '340px',
         volStart: '#9b93c6',
@@ -6638,7 +6839,7 @@
       [volumePageEl, noisePageEl].forEach(page => {
         if (page) {
           page.style.setProperty('--page-base-gray', theme.pageBase);
-          page.style.setProperty('--page-top-tint', theme.pageTopTint);
+          page.style.setProperty('--page-tint-color', theme.pageTintColor);
           page.style.setProperty('--hero-tint-height', theme.heroTintHeight || '362px');
           page.style.setProperty('--page-gradient-len', theme.pageGradientLen || '240px');
         }
@@ -6690,6 +6891,79 @@
       }
     }
 
+    /* ── 智能程序自动切换模拟器 ── */
+    // 智能 icon 背景渐变：自动模式下跟随当前子程序，平滑过渡（与背景同步 0.9s）
+    const ICON_GRAD = {
+      auto: ['#4c7add', '#8cb0e4', '#cce6eb'],
+      '1':  ['#a79a8d', '#b3b3c0', '#c3c7d2'],
+      '2':  ['#3bb3b3', '#88d2d3', '#d6f1f2'],
+      '3':  ['#5281ff', '#92affa', '#d1ddf6'],
+      '4':  ['#fca93f', '#f8c57e', '#f3e2bc'],
+    };
+    // 呼吸光圈颜色：跟随当前程序的浅色倾向（柔和、干净）
+    const BREATH_COLOR = {
+      auto: '#d8eaf0',   // 智能蓝
+      '1':  '#e7e6ea',   // 日常通用 浅灰
+      '2':  '#d9f0ee',   // 户外出行 浅青
+      '3':  '#dee7fb',   // 城市降噪 浅蓝
+      '4':  '#f6e8cf',   // 对话聚焦 浅金
+    };
+    function setAutoIcon(subId) {
+      const g = ICON_GRAD[subId] || ICON_GRAD.auto;
+      const breath = BREATH_COLOR[subId] || BREATH_COLOR.auto;
+      document.querySelectorAll('.program-mode-svg.mode-auto').forEach(svg => {
+        svg.style.setProperty('--ai-c1', g[0]);
+        svg.style.setProperty('--ai-c2', g[1]);
+        svg.style.setProperty('--ai-c3', g[2]);
+        svg.style.setProperty('--breath-color', breath);
+      });
+    }
+
+    function autoApplySub(subId) {
+      autoCurrentSub = subId;
+      applyProgramTheme(subId);                 // 复用现有主题
+      setAutoIcon(subId);                       // icon 背景 + 呼吸光圈 跟随当前程序变色
+      // 更新所有卡片的子标签文案 + 淡入脉冲
+      document.querySelectorAll('[data-auto-sub]').forEach(el => {
+        el.textContent = '当前 · ' + (SUB_NAME[subId] || '');
+        el.hidden = false;
+        el.classList.remove('sub-pulse');
+        void el.offsetWidth;
+        el.classList.add('sub-pulse');
+      });
+      // 高亮当前子场景
+      document.querySelectorAll('.program-card[data-program-selector="true"]').forEach(card => {
+        card.querySelectorAll('.program-dropdown-item--sub').forEach(i => i.classList.remove('is-current'));
+        const cur = card.querySelector('.program-dropdown-item[data-program="' + subId + '"]');
+        if (cur) cur.classList.add('is-current');
+      });
+    }
+
+    function startAutoMode() {
+      if (autoTimer) return;                    // 防重复定时器
+      autoMode = true;
+      document.querySelectorAll('.program-card[data-program-selector="true"]')
+        .forEach(card => card.classList.add('auto-active'));
+      let idx = AUTO_SEQUENCE.indexOf(autoCurrentSub);
+      if (idx < 0) idx = 0;
+      autoApplySub(AUTO_SEQUENCE[idx]);          // 进入即应用当前子主题
+      autoTimer = setInterval(() => {
+        idx = (idx + 1) % AUTO_SEQUENCE.length;
+        autoApplySub(AUTO_SEQUENCE[idx]);
+      }, AUTO_INTERVAL);
+    }
+
+    function stopAutoMode() {
+      autoMode = false;
+      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      setAutoIcon('auto');                      // 退出自动：icon 与光圈复位为智能蓝
+      document.querySelectorAll('.program-card[data-program-selector="true"]').forEach(card => {
+        card.classList.remove('auto-active');
+        card.querySelectorAll('.program-dropdown-item--sub').forEach(i => i.classList.remove('is-current'));
+      });
+      document.querySelectorAll('[data-auto-sub]').forEach(el => el.hidden = true);
+    }
+
     document.querySelectorAll('.program-card[data-program-selector="true"]').forEach(programCard => {
       const programRow = programCard.querySelector('.program-row');
       const programDropdown = programCard.querySelector('.program-dropdown');
@@ -6713,7 +6987,12 @@
 
           // Apply theme to all program cards & background
           const programId = item.dataset.program;
-          applyProgramTheme(programId);
+          if (programId === 'auto') {
+            startAutoMode();               // 进入智能模式：开始自动轮播
+          } else {
+            stopAutoMode();                // 手动选择 → 退出智能模式
+            applyProgramTheme(programId);
+          }
           document.querySelectorAll('.program-card[data-program-selector="true"]').forEach(otherCard => {
             if (otherCard === programCard) return;
             const otherDropdown = otherCard.querySelector('.program-dropdown');
@@ -6735,7 +7014,7 @@
       page.scrollTop = 0;
     });
 
-    applyProgramTheme('1');
+    startAutoMode();   // 默认进入智能程序（自动模式）
     renderVolume();
     (function showSafariTipOnIOSNonSafari() {
       const ua = navigator.userAgent || '';
